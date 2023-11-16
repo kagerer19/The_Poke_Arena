@@ -1,69 +1,51 @@
 package org.pokemon;
 
-
-class Pokemon {
-    private int pokemonID;
-    private String pokemonName;
-    private String PokemonType;
-    private String kind;
-    private double total;
+public class Pokemon {
+    private final int id;
+    private final String name;
+    private final String type1;
+    private final String type2;
+    private final int total;
     private double hp;
-    private double attack;
-    private double defense;
-    private double speedAttack;
-    private double speedDefense;
-    private double speed;
-    private String primaryAttack;
-    private String secondaryAttack;
+    private final int attack;
+    private final int defense;
+    private final int spAtk;
+    private final int spDef;
+    private final int speed;
+    private Attacks attackPrimary;
+    private Attacks attackSecondary;
 
-    Pokemon(int ID, String name, String typeOf, String species, double PKTotal, double healthPoints, double att, double def, double spAtt, double spDef, double totalSpeed) {
-        setPokemonID(ID);
-        setPokemonName(name);
-        setType(typeOf);
-        setKind(species);
-        setTotal(PKTotal);
-        setHp(healthPoints);
-        setAtt(att);
-        setDef(def);
-        setSpeedAtt(spAtt);
-        setSpeedDef(spDef);
-        setSpeed(totalSpeed);
+    public Pokemon(int id, String name, String type1, String type2, int total, double hp, int attack, int defense, int spAtk, int spDef, int speed) {
+        this.id = id;
+        this.name = name;
+        this.type1 = type1;
+        this.type2 = type2;
+        this.total = total;
+        this.hp = hp;
+        this.attack = attack;
+        this.defense = defense;
+        this.spAtk = spAtk;
+        this.spDef = spDef;
+        this.speed = speed;
     }
 
-    Pokemon(int ID, String name, String typeOf, String species, double PKTotal, double healthPoints, double att, double def, double spAtt, double spDef, double totalSpeed, String prAttack, String scAttack) {
-        setPokemonID(ID);
-        setPokemonName(name);
-        setType(typeOf);
-        setKind(species);
-        setTotal(PKTotal);
-        setHp(healthPoints);
-        setAtt(att);
-        setDef(def);
-        setSpeedAtt(spAtt);
-        setSpeedDef(spDef);
-        setSpeed(totalSpeed);
-        setPrimaryAttack(prAttack);
-        setSecondaryAttack(scAttack);
+    public int getId() {
+        return id;
     }
 
-    //Getters
-    public int getPokemonID() {
-        return pokemonID;
+    public String getName() {
+        return name;
     }
 
-    public String getPokemonName() {
-        return pokemonName;
+    public String getType1() {
+        return type1;
     }
 
-    public String getPokemonType() {
-        return PokemonType;
+    public String getType2() {
+        return type2;
     }
 
-    public String getKind() {
-        return kind;
-    }
-
-    public double getTotal() {
+    public int getTotal() {
         return total;
     }
 
@@ -71,103 +53,43 @@ class Pokemon {
         return hp;
     }
 
-    public double getAttack() {
+    public void setHp(double hp) {
+        this.hp = hp;
+    }
+
+    public int getAttack() {
         return attack;
     }
 
-    public double getDefense() {
+    public int getDefense() {
         return defense;
     }
 
-    public double getSpeedAttack() {
-        return speedAttack;
+    public int getSpAtk() {
+        return spAtk;
     }
 
-    public double getSpeedDefense() {
-        return speedDefense;
+    public int getSpDef() {
+        return spDef;
     }
 
-    public double getSpeed() {
+    public int getSpeed() {
         return speed;
     }
-    public String getPrimaryAttack() {
-        return primaryAttack;
+
+    public Attacks getAttackPrim() {
+        return attackPrimary;
     }
 
-    public String getSecondaryAttack() {
-        return secondaryAttack;
+    public void setAttackPrim(Attacks attackPrimary) {
+        this.attackPrimary = attackPrimary;
     }
 
-    //Setters
-    public void setPokemonID(int pokemonID) {
-        this.pokemonID = pokemonID;
+    public Attacks getAttackSec() {
+        return attackSecondary;
     }
 
-    public void setPokemonName(String pokemonName) {
-        this.pokemonName = pokemonName;
-    }
-
-    public void setType(String type) {
-        this.PokemonType = type;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
-    private void setTotal(double pkTotal) {
-        this.total = pkTotal;
-    }
-
-    void setHp(double healthPoints) {
-        this.hp = healthPoints;
-    }
-
-    private void setAtt(double att) {
-        this.attack = att;
-    }
-
-    private void setDef(double def) {
-        this.defense = def;
-    }
-
-    private void setSpeedAtt(double spAtt) {
-        this.speedAttack = spAtt;
-    }
-
-    private void setSpeedDef(double spDef) {
-        this.speedDefense = spDef;
-    }
-
-    private void setSpeed(double totalSpeed) {
-        this.speed = totalSpeed;
-    }
-    public void setPrimaryAttack(String primaryAttack) {
-        this.primaryAttack = String.valueOf(primaryAttack);
-    }
-
-    public void setSecondaryAttack(String secondaryAttack) {
-        this.secondaryAttack = String.valueOf(secondaryAttack);
-    }
-
-    @Override
-    public String toString() {
-
-        return "ID:   " + getPokemonID() + "\n" +
-                "Name: " + getPokemonName() + "\n" +
-                "type: " + getPokemonType() + "\n" +
-                "kind: " + getKind() + "\n" +
-                "total: " + getTotal() + "\n" +
-                "Health: " + getHp() + "\n" +
-                "Attack: " + getAttack() + "\n" +
-                "Defense: " + getDefense() + "\n" +
-                "Speed Attack: " + getSpeedAttack() + "\n" +
-                "Speed Attack: " + getSpeedDefense() + "\n" +
-                "Speed: " + getSpeed() + "\n" +
-                "---".repeat(20);
-    }
-
-    public double getAttackPrim() {
-        return attack;
+    public void setAttackSec(Attacks attackSecondary) {
+        this.attackSecondary = attackSecondary;
     }
 }

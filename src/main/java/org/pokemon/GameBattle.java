@@ -3,22 +3,37 @@ package org.pokemon;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
 public class GameBattle {
+    private final Scanner scanner = new Scanner(System.in);
+    private boolean statusGame = false;
     private Pokemon playerPokemon;
     private Pokemon AIPokemon;
-    static final HashMap<Integer, Attacks> PrimaryAttacksMap = new HashMap<>();
-    static final HashMap<Integer, Attacks> SecondaryAttacksMap = new HashMap<>();
-    private final int round = 1;
-    poke_data d = new poke_data();
-    Random rand = new Random();
-    Scanner ssc = new Scanner(System.in);
-    boolean gameOver = false;
+    private final Random random = new Random();
+    private int round = 1;
 
-    public GameBattle() {
+    public void TheArena() {
+        poke_data pokemons = new poke_data();
+        poke_data attacks = new poke_data();
+
+        playerPokemon = pokemons.getRandomPokemon();
+        playerPokemon.setAttackPrim(attacks.getRandomAttack());
+        playerPokemon.setAttackSec(attacks.getRandomAttack());
+
+        AIPokemon = pokemons.getRandomPokemon();
+        AIPokemon.setAttackPrim(attacks.getRandomAttack());
+        AIPokemon.setAttackSec(attacks.getRandomAttack());
+
+        System.out.println("Your Pokemon: " + playerPokemon.getName());
+        System.out.println("Primary Attack: " + playerPokemon.getAttackPrim().getName());
+        System.out.println("Secondary Attack: " + playerPokemon.getAttackSec().getName());
+        System.out.println("--".repeat(15));
+        System.out.println("AI Pokemon: " + AIPokemon.getName());
+        System.out.println("Primary Attack: " + AIPokemon.getAttackPrim().getName());
+        System.out.println("Secondary Attack: " + AIPokemon.getAttackSec().getName());
+        System.out.println("--".repeat(15));
     }
 
     static void welcome() {
@@ -33,139 +48,96 @@ public class GameBattle {
         }
     }
 
-    public void gameInformation() {
-        d.getPokemon();
-        d.getAttacks();
-        GameBattle.welcome();
-
-
-        System.out.println("Choose a pokemon by ID or By name....if you even know all 150 pokemon participating in this arena battle.");
-        String userChoice = ssc.next();
-
-        System.out.println(d.getPokemonByNameOrID(userChoice));
-
-        System.out.println(d.getRandomAttack().showAbilities());
-        System.out.println(d.getRandomAttack().showAbilities());
-        System.out.println("Choose a Primary attack.");
-        userChoice = ssc.next();
-
-        System.out.println("Choose a Secondary attack.");
-        userChoice = ssc.next();
-
-        d.grabPrimaryAttack(userChoice);
-        d.grabSecondaryAttack(userChoice);
-    }
-
-
     public void startBattle() {
-        gameInformation();
+        welcome();
+        TheArena();
 
-        while (!gameOver) {
-            if (playerPokemon.getSpeedAttack() >= AIPokemon.getSpeedAttack()) {
+        while (!statusGame) {
+            if (playerPokemon.getSpeed() >= AIPokemon.getSpeed()) {
                 attackPlayer();
                 if (AIPokemon.getHp() <= 0) {
-                    gameOver = true;
-                    System.out.println("\nThe Battle is over, Player is the WINNER!\n");
-                    System.out.println("GG'S in the chat");
+                    statusGame = true;
+                    System.out.println("GAME OVER, Player is the WINNER!  ");
                     break;
                 }
 
                 attackAI();
                 if (playerPokemon.getHp() <= 0) {
-                    gameOver = true;
-                    System.out.println("\nThe Battle is over, AI is the WINNER!\n");
-                    System.out.println("BG'S in the chat");
+                    statusGame = true;
+                    System.out.println("GAME OVER, AI is the WINNER!  ");
                     break;
                 }
             } else {
                 attackAI();
                 if (playerPokemon.getHp() <= 0) {
-                    gameOver = true;
-                    System.out.println("\nThe Battle is over, AI is the WINNER!\n");
-                    System.out.println("BG'S in the chat");
+                    statusGame = true;
+                    System.out.println("GAME OVER, AI is the WINNER!  ");
                     break;
                 }
 
                 attackPlayer();
                 if (AIPokemon.getHp() <= 0) {
-                    gameOver = true;
-                    System.out.println("\nThe Battle is over, Player is the WINNER!\n");
-                    System.out.println("GG'S in the chat");
+                    statusGame = true;
+                    System.out.println("GAME OVER, Player is the WINNER!  ");
                     break;
                 }
             }
         }
+
+        scanner.close();
     }
 
     private void attackAI() {
         double damage;
-        int attackOption = rand.nextInt(2) + 1;
-
+        int attackOption = random.nextInt(2) + 1;
         if (attackOption == 1) {
-            if (AIPokemon.getPrimaryAttack() != null) {
-                damage = Double.parseDouble(AIPokemon.getPrimaryAttack() + AIPokemon.getTotal() * (AIPokemon.getAttack() / playerPokemon.getDefense()) * (1.0 / 25.0));
-                playerPokemon.setHp(playerPokemon.getHp() - damage);
-                System.out.println("\nOpponent used " + AIPokemon.getPrimaryAttack() + AIPokemon.getPokemonName() + " and dealt " + (int) damage + " damage.");
-            } else {
-                System.out.println("AI Pokemon's primary attack is null. Cannot perform the attack.");
-            }
+            damage = (AIPokemon.getAttackPrim().getPower() * ((double) AIPokemon.getAttack() / playerPokemon.getDefense()) * (1.0 / 25.0));
+            playerPokemon.setHp(playerPokemon.getHp() - damage);
+            System.out.println("AI used " + AIPokemon.getAttackPrim().getName());
         } else if (attackOption == 2) {
-            if (AIPokemon.getSecondaryAttack() != null) {
-                damage = Double.parseDouble(AIPokemon.getSecondaryAttack() + AIPokemon.getTotal() * (AIPokemon.getAttack() / playerPokemon.getDefense()) * (1.0 / 25.0));
-                playerPokemon.setHp(playerPokemon.getHp() - damage);
-                System.out.println("\nOpponent used " + AIPokemon.getSecondaryAttack() + AIPokemon.getPokemonName() + " and dealt " + (int) damage + " damage.");
-            } else {
-                System.out.println("AI Pokemon's secondary attack is null. Cannot perform the attack.");
-            }
-        } else {
-            System.out.println("Invalid attack option. Try again.");
-        }
+            damage = (int) (AIPokemon.getAttackSec().getPower() * (AIPokemon.getAttack() / playerPokemon.getDefense()) * (1.0 / 25.0));
+            playerPokemon.setHp(playerPokemon.getHp() - damage);
+            System.out.println("AI used " + AIPokemon.getAttackSec().getName());
+        } else
+            System.out.println("Invalid option. Try again.");
 
-        System.out.println("Player's HP: " + (int) playerPokemon.getHp());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Your HP: " + (int) playerPokemon.getHp());
     }
-
 
     private void attackPlayer() {
         int attackOption;
         double damage;
-        System.out.println("\n         +--+--+--+--+--+--+--+--+");
-        System.out.println("Player's Pokemon: " + playerPokemon.getPokemonName());
-        System.out.println("                    -----");
-        System.out.println("\nPlayer, choose your attack!\n");
-        System.out.println("To use Primary Attack: " + playerPokemon.getAttackPrim() + playerPokemon.getPokemonName() + "  press 1");
-        System.out.println("To use Secondary Attack: " + playerPokemon.getSecondaryAttack() + playerPokemon.getPokemonName() + "  press 2");
-        System.out.println("\n         +--+--+--+--+--+--+--+--+\n");
+
+        System.out.println("Your Pokemon: " + playerPokemon.getName());
+        System.out.println("--".repeat(15));
+        System.out.println("Player, Whats your attack gonna be!?  ");
+        System.out.println("--".repeat(15));
+        System.out.println("Primary Attack: " + playerPokemon.getAttackPrim().getName() + " : Option 1");
+        System.out.println("Secondary Attack: " + playerPokemon.getAttackSec().getName() + " : Option 2");
+        System.out.println("--".repeat(15));
 
         while (true) {
-            if (ssc.hasNextInt()) {
-                attackOption = ssc.nextInt();
+            if (scanner.hasNextInt()) {
+                attackOption = scanner.nextInt();
                 if (attackOption == 1 || attackOption == 2)
                     break;
+                else
+                    System.out.println("Invalid attack option. Try again.");
             } else {
-                System.out.println("Invalid attack option. Try again.");
+                scanner.next(); // consume invalid input
+                System.out.println("Invalid input. Please enter a number.");
             }
         }
 
         if (attackOption == 1) {
-            damage = (playerPokemon.getAttackPrim() + playerPokemon.getTotal() * (playerPokemon.getAttack() / AIPokemon.getDefense()) * (1.0 / 25.0));
+            damage = (playerPokemon.getAttackPrim().getPower() * ((double) playerPokemon.getAttack() / AIPokemon.getDefense()) * (1.0 / 25.0));
             AIPokemon.setHp(AIPokemon.getHp() - damage);
-            System.out.println("\nPlayer used " + playerPokemon.getAttackPrim() + playerPokemon.getPokemonName());
+            System.out.println("You used " + playerPokemon.getAttackPrim().getName());
         } else if (attackOption == 2) {
-            damage = Double.parseDouble((playerPokemon.getSecondaryAttack() + playerPokemon.getTotal() * (playerPokemon.getAttack() / AIPokemon.getDefense()) * (1.0 / 25.0)));
+            damage = (playerPokemon.getAttackSec().getPower() * ((double) playerPokemon.getAttack() / AIPokemon.getDefense()) * (1.0 / 25.0));
             AIPokemon.setHp(AIPokemon.getHp() - damage);
-            System.out.println("\nPlayer used " + playerPokemon.getSecondaryAttack() + playerPokemon.getPokemonName());
+            System.out.println("You used " + playerPokemon.getAttackSec().getName());
         }
-
-        System.out.println("Opponent's HP: " + (int) AIPokemon.getHp());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("AI HP " + (int) AIPokemon.getHp());
     }
 }

@@ -1,103 +1,55 @@
 package org.pokemon;
 
+public class Attacks {
+    private final int id;
+    private final String name;
+    private final String effect;
+    private final String type;
+    private final String kind;
+    private final double power;
+    private final String accuracy;
+    private final int pp;
 
-class Attacks {
-    private int attackID;
-    private String attackName;
-    private String attackEffect;
-    private String attackType;
-    private String attackKind;
-    private int attackPower;
-    private int attackAccuracy;
-    private int attackPoints;
-
-
-    Attacks(int ID, String name, String effect, String type, String kind, int power, int accuracy, int powerPoints) {
-        setAttackID(ID);
-        setAttackName(name);
-        setAttackType(effect);
-        setAttackEffect(type);
-        setAttackKind(kind);
-        setAttackPower(power);
-        setAttackAccuracy(accuracy);
-        setAttackPoints(powerPoints);
+    public Attacks(int id, String name, String effect, String type, String kind, double power, String accuracy, int pp) {
+        this.id = id;
+        this.name = name;
+        this.effect = effect;
+        this.type = type;
+        this.kind = kind;
+        this.power = power;
+        this.accuracy = accuracy;
+        this.pp = pp;
     }
 
-
-    public String getAttackKind() {
-        return attackKind;
+    public int getId() {
+        return id;
     }
 
-    public int getAttackPower() {
-        return attackPower;
-    }
-    public int getAttackAccuracy() {
-        return attackAccuracy;
+    public String getName() {
+        return name;
     }
 
-    public int getAttackPoints() {
-        return attackPoints;
+    public String getEffect() {
+        return effect;
     }
 
-    public int getAttackID() {
-        return attackID;
+    public String getType() {
+        return type;
     }
 
-    public String getAttackName() {
-        return attackName;
+    public String getKind() {
+        return kind;
     }
 
-    public String getAttackType() {
-        return attackType;
+    public double getPower() {
+        return power;
     }
 
-    public String getAttackEffect() {
-        return attackEffect;
+    public String getAccuracy() {
+        return accuracy;
     }
 
-    public void setAttackPower(int attackPower) {
-        this.attackPower = attackPower;
-    }
-
-    public void setAttackAccuracy(int attackAccuracy) {
-        this.attackAccuracy = attackAccuracy;
-    }
-
-    public void setAttackPoints(int attackPoints) {
-        this.attackPoints = attackPoints;
-    }
-
-
-    public void setAttackID(int attackID) {
-        this.attackID = attackID;
-    }
-
-    public void setAttackName(String pokemonName) {
-        this.attackName = pokemonName;
-    }
-
-    public void setAttackEffect(String kind) {
-        this.attackEffect = kind;
-    }
-
-    public void setAttackType(String type) {
-        this.attackType = type;
-    }
-
-    public void setAttackKind(String type) {
-        this.attackKind = type;
-    }
-
-
-    public String showAbilities() {
-
-        return "Attack-ID: " + getAttackID() + "\n" +
-                "Attack: " + getAttackName() +  "\n" +
-                "Effect: " + getAttackEffect() + "\n" +
-                "Type: " + getAttackType() + "\n" +
-                "Kind: " + getAttackKind() + "\n" +
-                "Power: " + getAttackPower() + "\n" +
-                "Accuracy: " + getAttackAccuracy() + "%" + "\n" +
-                "Attack Point: " + getAttackPoints() + "\n";
+    public int getPp() {
+        return pp;
     }
 }
